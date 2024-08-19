@@ -9,13 +9,13 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCjczJVEDHD93c0BxSK8WELkcClnioK_GA",
-  authDomain: "monochat-b0813.firebaseapp.com",
-  projectId: "monochat-b0813",
-  storageBucket: "monochat-b0813.appspot.com",
-  messagingSenderId: "81621702912",
-  appId: "1:81621702912:web:4e5ff196a2214f3893bbe5",
-  measurementId: "G-ZCW16J5T5E"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
