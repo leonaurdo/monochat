@@ -28,7 +28,8 @@ function App() {
   return (
     <div className="App">
       <header>
-        
+        <h1>Monochat</h1>
+        {user && <SignOut />}
       </header>
       <section>
         {user ? <ChatRoom /> : <SignIn />}
@@ -38,7 +39,6 @@ function App() {
 }
 
 function SignIn() {
-
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider);
@@ -51,7 +51,7 @@ function SignIn() {
 
 function SignOut() {
   return auth.currentUser && (
-    <button onClick={() => auth.signOut()}>Sign Out</button>
+    <button onClick={() => signOut(auth)}>Sign Out</button>
   )
 }
 
@@ -59,12 +59,12 @@ function ChatRoom() {
   const messagesRef = collection(firestore, 'messages');
   const q = query(messagesRef, orderBy('createdAt'), limit(25));
 
-  const [messages] = useCollectionData(q, { idField: 'id'});
+  const [messages] = useCollectionData(q, { idField: 'id' });
 
   const [formValue, setFormValue] = React.useState('');
   const dummy = useRef();
 
-  const sendMessage = async(e) => {
+  const sendMessage = async (e) => {
     e.preventDefault();
 
     const { uid, photoURL } = auth.currentUser;
@@ -87,19 +87,19 @@ function ChatRoom() {
   return (
     <>
       <div>
-        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+        {messages && messages.map((msg, index) => <ChatMessage key={msg.id || index} message={msg} />)}
         <span ref={dummy}></span>
       </div>
 
       <form onSubmit={sendMessage}>
-        <input value={formValue} onChange={(e) => setFormValue(e.target.value)}/>
+        <input value={formValue} onChange={(e) => setFormValue(e.target.value)} />
         <button type="submit">⬆️</button>
       </form>
     </>
   )
 }
 
-function ChatMessage(props){
+function ChatMessage(props) {
   const { text, uid, photoURL } = props.message;
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
   return (
